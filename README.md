@@ -1,4 +1,34 @@
-<h1>TFM del Master en Ciencias de Datos</h1><br/><span font-size=0.875em>Universidad Internacional de Valencia</span>
+#   TFM del Master en Ciencias de Datos
+Universidad Internacional de Valencia ![Logo](https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png)
+
+<!--
+<img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" />
+-->
 
 
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
 
+## General info
+This project is simple Lorem ipsum dolor generator.
+	
+## Technologies
+Project is created with:
+* Lorem version: 12.3
+* Ipsum version: 2.33
+* Ament library version: 999
+	
+## Setup
+To run this project, install it locally using npm:
+
+```
+$ cd ../lorem
+$ npm install
+$ npm start
+```
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
