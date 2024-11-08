@@ -1,4 +1,6 @@
-<img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" width="100" />
+<div text-align="center">
+<img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" width="180" />
+</div>
 #   **TFM del Master en Ciencias de Datos**
 Universidad Internacional de Valencia 
 
