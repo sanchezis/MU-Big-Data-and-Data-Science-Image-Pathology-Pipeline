@@ -1,8 +1,4 @@
-<p align="center">
-<img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" width="180" />
-</p>
-
-#  TFM del Master en Ciencias de Datos
+#  TFM del Máster en Ciencias de Datos y Big Data
 Universidad Internacional de Valencia 
 
 <!--
@@ -35,4 +31,9 @@ $ npm start
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+<!-- [MIT](https://choosealicense.com/licenses/mit/) -->
+[EUPL](https://raw.githubusercontent.com/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline/refs/heads/main/LICENSE)
+
+<p align="center">
+<img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" width="180" />
+</p>
