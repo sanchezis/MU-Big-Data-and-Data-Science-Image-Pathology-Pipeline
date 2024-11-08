@@ -1,5 +1,6 @@
-#   TFM del Master en Ciencias de Datos
-Universidad Internacional de Valencia ![Logo](https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png)
+![Logo](https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png =100x)
+#   **TFM del Master en Ciencias de Datos**
+Universidad Internacional de Valencia 
 
 <!--
 <img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" />
