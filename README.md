@@ -5,6 +5,10 @@
 <img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" width="100" />
 -->
 
+![Tests](https://img.shields.io/badge/tests-100%25%20passing-brightgreen)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Build](https://github.com/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline/workflows/tests/badge.svg)
+![GitHub Stars](https://img.shields.io/github/stars/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline?logo=github&color=yellow)
 
 ## Table of contents
 * [General info](#general-info)
@@ -35,5 +39,5 @@ $ npm start
 [EUPL](https://raw.githubusercontent.com/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline/refs/heads/main/LICENSE)
 
 <p align="center">
-<img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" width="180" />
+<img src="https://www.universidadviu.com/sites/universidadviu.com/themes/custom/universidadviu_com/logo.webp" width="180" />
 </p>

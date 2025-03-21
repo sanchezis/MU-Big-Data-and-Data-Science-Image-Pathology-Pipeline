@@ -1,0 +1,39 @@
+name: Tests  # Name of the workflow
+
+# Trigger the workflow on push to main and pull requests
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest  # Use GitHub's latest Ubuntu runner
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python 3.11
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          node-version: 3.11
+
+      # Step 3: Run tests
+      - name: Run tests
+        run: pytest tests/  # Assumes "tests" is defined in package.json
+
+      # (Optional) Step 5: Generate a coverage badge
+      # - name: Create coverage badge
+      #   uses: schneegans/dynamic-badges-action@v1
+      #   if: always()
+      #   with:
+      #     auth: ${{ secrets.GITHUB_TOKEN }}
+      #     label: Coverage
+      #     status: ${{ github.workflow }}
+      #     path: coverage/coverage-summary.json  # Path to your coverage report
+      #     output: badges/coverage.svg
