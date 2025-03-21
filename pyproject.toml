@@ -15,8 +15,6 @@ pyarrow = "14.0.2"  # Use a newer version with pre-built wheels
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.6.1"
 black = "^23.10.0"
-pytest = "^7.4.4"
-pytest-cov = "^4.1.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.4"
