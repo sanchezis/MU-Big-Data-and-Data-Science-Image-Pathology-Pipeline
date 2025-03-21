@@ -24,9 +24,9 @@
 
 ## Información General
 
-El tema de desarrollo del presente trabajo, se enfoca en una primera instancia, la de analizar el estado del arte de aplicativos similares. Para más tarde, realizar una solución homogénea para el uso de profesionales de la salud, instituciones y empresas farmacéuticas. El objetivo de este proyecto es el realizar una implementación de una tubería donde cada paso realice una operación de extracción de información y minería de datos.
+El objetivo de este proyecto es el realizar una implementación de una tubería donde en cada paso, se realice una operación de extracción de información y minería de datos de fuentes provenientes de imágenes patológicas.
 
-Para realizar un proceso en el que se llegue a una solución donde se pueda utilizar un conjunto de datos resultado. Este mismo desarrollo brindará un conocimiento adicional de la búsqueda de patrones en imágenes médicas y realizará y mantendrá una base de datos con capacidades de agregar iterativamente mayor información para la búsqueda de conocimiento.
+Asi mismo, se utilizarán diversas librerías y se realizará una comparativa de las posibilidades que estas ofrecen, como si se tratase de una ejecución en un entorno médico real.
 
 ## Tecnologías
 
