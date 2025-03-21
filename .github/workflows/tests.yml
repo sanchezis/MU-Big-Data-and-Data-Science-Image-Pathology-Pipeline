@@ -23,6 +23,13 @@ jobs:
         with:
           node-version: 3.11
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest  # Install pytest explicitly
+          # If you have a requirements.txt, use:
+          # pip install -r requirements.txt
+
       # Step 3: Run tests
       - name: Run tests
         run: pytest tests/  # Assumes "tests" is defined in package.json
