@@ -142,6 +142,29 @@ poetry build && poetry run spark-submit \
 * INPUT_FILE_PATH: De ser necesario, se puede añadir la fuente de datos de imágenes patológicas de entrada.
 * OUTPUT_PATH: Directorio de salida donde se almacenan todos los pasos ejecutados.
 
+### Creación de embebido para ejecución en entorno de producción
+
+Ejecutando el script
+
+```bash
+scripts/build.sh
+```
+
+Creará una carpeta `dist` con los siguientes archivos:
+
+```bash
+/
+...
+│
+├─ /dist
+│ ├─ /digital_pathology-@VERSION.tar # zipped python library to be used for executors
+│ └─ /digital_pathology-@VERSION-py3-none-any # library wheels for setup and installation
+│
+...
+```
+
+Los cuales pueden ser utilizados en cualquier implementación real o de producción, ya sea local, cloud o cluster.
+
 ## License
 
 <!-- [MIT](https://choosealicense.com/licenses/mit/) -->
