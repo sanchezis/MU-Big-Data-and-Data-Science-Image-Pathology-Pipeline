@@ -28,4 +28,4 @@ if __name__ == '__main__':
     spark.stop()
 
 
-# clear && poetry run spark-submit  --master local  --py-files dist/digital_pathology-*.whl   jobs/ingest.py  out/0-extract.parquet
+# clear && poetry run spark-submit  --master local  --py-files dist/digital_pathology-*.whl   jobs/ingest.py  data/0-extract.parquet
