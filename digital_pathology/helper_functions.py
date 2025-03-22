@@ -4,6 +4,9 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+import PIL
+from PIL import Image
+
 sys.path += [ f"./.." , f"./../digital_pathology" , ]
 
 os.environ['PYARROW_IGNORE_TIMEZONE']='1'
@@ -63,6 +66,12 @@ plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
+PIL.MAX_IMAGE_PIXELS = 92932669440
+Image.MAX_IMAGE_PIXELS = None
+
+
+
 
 def stats(df): #the function displays dataframe size, countings of unique patients and unique exams
     print('Dataframe size: ' + str(df.shape))

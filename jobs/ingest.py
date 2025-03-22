@@ -7,7 +7,7 @@ from digital_pathology.spark import spark
 from digital_pathology.ingest.aws import AWS_ingestion
 
 LOG_FILENAME = 'project.log'
-APP_NAME = "WordCount"
+APP_NAME = "AWS Ingest CAMELYON"
 
 if __name__ == '__main__':
     logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO)

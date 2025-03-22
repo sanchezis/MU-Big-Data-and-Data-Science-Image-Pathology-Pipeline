@@ -1,7 +1,11 @@
+import helper_functions
 import json
 from IPython.display import display, HTML
+
+from matplotlib import pyplot as plt
 import matplotlib.pyplot as plt
 from matplotlib.font_manager import FontProperties
+
 import os
 import math
 import numpy as np
@@ -9,6 +13,70 @@ import plotly.graph_objects as go
 import slideio
 import pandas as pd
 
+from PIL import Image
+from io import BytesIO
+
+
+def image_from_s3(bucket, key, region_name='us-east-1'):
+    import boto3
+    import io
+    
+    s3 = boto3.resource('s3', region_name=region_name)
+    bucket = s3.Bucket(bucket)
+    image = bucket.Object(key)
+    img_data = image.get().get('Body').read()
+    return Image.open(io.BytesIO(img_data))
+
+def read_image_from_s3(bucket, key, region_name='us-east-1'):
+    """Load image file from s3.
+
+    Parameters
+    ----------
+    bucket: string
+        Bucket name
+    key : string
+        Path in s3
+
+    Returns
+    -------
+    np array
+        Image array
+    """
+    import boto3
+    
+    s3 = boto3.resource('s3', region_name=region_name)
+    bucket = s3.Bucket(bucket)
+    object = bucket.Object(key)
+    response = object.get()
+    file_stream = response['Body']
+    im = Image.open(file_stream)
+    return np.array(im)
+
+def write_image_to_s3(img_array, bucket, key, region_name='us-east-1'):
+    """Write an image array into S3 bucket
+
+    Parameters
+    ----------
+    bucket: string
+        Bucket name
+    key : string
+        Path in s3
+        
+    'ap-southeast-1'
+
+    Returns
+    -------
+    None
+    """
+    import boto3
+    
+    s3 = boto3.resource('s3', region_name)
+    bucket = s3.Bucket(bucket)
+    object = bucket.Object(key)
+    file_stream = BytesIO()
+    im = Image.fromarray(img_array)
+    im.save(file_stream, format='jpeg')
+    object.put(Body=file_stream.getvalue())
 
 def get_test_images():
     file_path = 'images.json'
@@ -334,15 +402,12 @@ def extract_image_properties(images):
     return pd.DataFrame(image_infos)
 
 
-import numpy as np
-import cv2
-from matplotlib import pyplot as plt
-
 ############### INPUT RGB IMAGE #######################
 #Using opencv to read images may bemore robust compared to using skimage
 #but need to remember to convert BGR to RGB.
 #Also, convert to float later on and normalize to between 0 and 1.
 
+# import cv2
 #Image downloaded from:
 #https://pbs.twimg.com/media/C1MkrgQWQAASbdz.jpg
 # img=cv2.imread('images/HnE_Image.jpg', 1)
