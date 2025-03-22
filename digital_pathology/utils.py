@@ -1,3 +1,9 @@
+# Copyright (c) 2024 Israel Llorens
+# Licensed under the EUPL-1.2  
+
+__author__ = "Israel Llorens"
+__copyright__ = "Copyright 2024, Israel Llorens"
+
 import helper_functions
 import json
 from IPython.display import display, HTML
@@ -15,6 +21,31 @@ import pandas as pd
 
 from PIL import Image
 from io import BytesIO
+
+import io
+import boto3
+import matplotlib.pyplot as plt
+import matplotlib.image as mplimg
+
+def download_image(bucket_name, path):
+    s3 = boto3.resource('s3' #, region_name='us-east-2'
+                        )
+    bucket = s3.Bucket('camelyon-dataset')
+    object = bucket.Object(path)
+
+    file_stream = io.BytesIO()
+    object.download_fileobj(file_stream)
+    #img = mplimg.imread(file_stream)
+
+    # print(file_stream.closed)
+    name = path.split('/')[-1]
+    # Write the stuff
+    with open(os.path.join('..', 'data', name), "wb") as f:
+        f.write(file_stream.getbuffer())
+
+    # tifffile.imwrite(file_stream, [[0]])
+    buffer = bytearray(file_stream.getvalue())
+    return buffer
 
 
 def image_from_s3(bucket, key, region_name='us-east-1'):

@@ -1,3 +1,9 @@
+# Copyright (c) 2024 Israel Llorens
+# Licensed under the EUPL-1.2  
+
+__author__ = "Israel Llorens"
+__copyright__ = "Copyright 2024, Israel Llorens"
+
 import sys 
 import os
 import pandas as pd 

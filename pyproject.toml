@@ -3,7 +3,7 @@ name = "digital_pathology"
 version = "1.0.0"
 description = "Digital Pathology"
 authors = ["Israel Llorens <sanchezis@hotmail.com>"]
-license = "(EUPL) v1.2"
+license = "EUPL-1.2"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
