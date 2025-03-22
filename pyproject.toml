@@ -9,8 +9,16 @@ license = "(EUPL) v1.2"
 python = "^3.11"
 numpy = "^1.20.2"
 pandas = "^2.0.0"
-pyspark = "3.5.1"
+pyspark = "3.4.4"
 pyarrow = "14.0.2"  # Use a newer version with pre-built wheels
+torch = "^2.6.0"
+torchvision = "^0.21.0"
+torchaudio = "^2.6.0"
+tensorflow-macos = {version = "^2.16.2", platform = "darwin"}
+tensorflow-metal = {version = "^1.2.0", platform = "darwin"}
+boto3 = "^1.37.18"
+matplotlib = "^3.10.1"
+seaborn = "^0.13.2"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.6.1"
@@ -23,6 +31,8 @@ pytest-cov = "^4.1.0"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"
+
+
 
 [tool.poetry.group.doc.dependencies]
 black = "^23.10.0"

@@ -14,6 +14,8 @@ build/
 develop-eggs/
 dist/
 downloads/
+out/
+data/
 eggs/
 .eggs/
 lib/
@@ -27,6 +29,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+poetry.lock
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -37,6 +40,7 @@ MANIFEST
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+project.log
 
 # Unit test / coverage reports
 htmlcov/

@@ -1,1 +1,1 @@
-clear && poetry build
+clear && rm -rf dist && poetry build
