@@ -25,6 +25,12 @@ jobs:
             libgdal-dev \
             gdal-bin
 
+      # Step 2: Set up Python 3.11
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
       - name: Setup Conda
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -43,12 +49,13 @@ jobs:
               libproj-dev proj-bin libgeos-dev \
               libcurl4-gnutls-dev libexpat1-dev libxml2-dev \
               libsqlite3-dev libtiff-dev
+          sudo apt-get install -y autoconf automake libtool
           wget https://download.osgeo.org/gdal/3.10.2/gdal-3.10.2.tar.gz
           tar -xzf gdal-3.10.2.tar.gz
           ls -l
           cd gdal-3.10.2
           ls -l
-          
+          autoreconf -fvi
           ./configure
           make -j$(nproc)
           sudo make install
@@ -71,12 +78,6 @@ jobs:
       #       libgdal-dev \
       #       gdal-bin
 
-      # Step 2: Set up Python 3.11
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
       - name: Install Poetry
         uses: snok/install-poetry@v1  # Official Poetry installer for GitHub Actions
         with:
@@ -91,6 +92,12 @@ jobs:
           # pip install pytest  # Install pytest explicitly
           # If you have a requirements.txt, use:
           # pip install -r requirements.txt
+
+      - name: Check GDAL version
+        run: |
+          gdal-config --version
+          poetry run gdalinfo --version
+
 
       # Step 3: Run tests
       - name: Run tests
