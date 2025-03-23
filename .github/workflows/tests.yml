@@ -45,7 +45,10 @@ jobs:
               libsqlite3-dev libtiff-dev
           wget https://download.osgeo.org/gdal/3.10.2/gdal-3.10.2.tar.gz
           tar -xzf gdal-3.10.2.tar.gz
+          ls -l
           cd gdal-3.10.2
+          ls -l
+          
           ./configure
           make -j$(nproc)
           sudo make install
