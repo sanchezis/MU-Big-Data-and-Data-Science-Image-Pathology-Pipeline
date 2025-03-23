@@ -57,17 +57,15 @@ class DownloadPathologyData(object):
         transform_1 = transform\
                         .filter(  (F.col('type')=='tif')  &  (~F.col('image').rlike(r'(_mask)')) )
 
-        output = transform_1.sample(.20) 
-        
-        output.show(truncate=False, n= 5)
         
         logging.info('***************************************************************')
         logging.info(f'{input_path}  ->   {output_path}')
         logging.info('***************************************************************')
 
+        logging.info('TAKING ONLY 10 random Patients')
+        output = transform_1.sample(.20).limit(10)
         list_of_files = output.select('filename', 'out_dir').collect()
 
-        logging.info('TAKING ONLY 5 random Patients')
         logging.info(f'{list_of_files}')
 
         for i, e in enumerate(list_of_files):
@@ -79,7 +77,7 @@ class DownloadPathologyData(object):
 
             download_image(bucket_name, s3_path, e['out_dir'])        
 
-            tissue = TissueTileExtractor(e['out_dir'], output_path, max_tiles=200)
+            tissue = TissueTileExtractor(e['out_dir'], output_path, max_tiles=1000)
             tissue.extract_tiles( pathology_image_quality_check )
 
             file_path = e['out_dir']

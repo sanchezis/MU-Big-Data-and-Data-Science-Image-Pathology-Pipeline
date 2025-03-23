@@ -6,6 +6,7 @@ __copyright__ = "Copyright 2024, Israel Llorens"
 __license__ = "EUPL-1.2"
 
 import os
+import logging
 import numpy as np
 import large_image
 from histomicstk.preprocessing.color_normalization import reinhard
@@ -20,12 +21,14 @@ class TissueTileExtractor:
 
     def __init__(self, slide_path, output_dir, tile_size=1024, tissue_threshold=95.0, max_tiles=10_000):
         self.slide_path = slide_path
+        self.name = self.slide_path.split(os.sep)[-1]
         self.output_dir = output_dir
         self.tile_size = tile_size
         self.tissue_threshold = tissue_threshold
         self.max_tiles = max_tiles
         self.ts = large_image.getTileSource(slide_path)
         self.mask, self.scale_factor = self._create_tissue_mask()
+        logging.warning(self.name)
 
     def _create_tissue_mask(self):
         """Create tissue mask using Reinhard normalization + Otsu thresholding"""
@@ -96,8 +99,8 @@ class TissueTileExtractor:
         
         # Save top tiles sorted by tissue percentage
         for idx, (score, x, y, img) in enumerate(sorted(tiles, key=lambda x: -x[0])):
-            fname = f"_tile_{idx}_x{x}_y{y}_score{score:.1f}.png"
-            Image.fromarray(img).save(os.path.join(self.slide_path.split(os.sep)[-1], self.output_dir, fname))
+            fname = f"{self.name}_tile_{idx}_x{x}_y{y}_score{score:.1f}.png"
+            Image.fromarray(img).save(os.path.join(self.output_dir, fname))
 
 # Usage
 if __name__ == "__main__":
