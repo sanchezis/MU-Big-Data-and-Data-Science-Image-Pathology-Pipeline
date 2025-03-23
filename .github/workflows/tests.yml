@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies
         run: |
           poetry install --with dev,test
-          # poetry install --with dev, test, doc
+          # poetry install --with dev,test,doc
           # python -m pip install --upgrade pip
           # pip install pytest  # Install pytest explicitly
           # If you have a requirements.txt, use:
