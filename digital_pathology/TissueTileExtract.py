@@ -71,7 +71,7 @@ class TissueTileExtractor:
         ]
         return np.mean(mask_region) * 100
 
-    def extract_tiles(self):
+    def extract_tiles(self, fn):
         """Main method to extract and save tissue tiles"""
         tiles = []
         metadata = self.ts.getMetadata()
@@ -89,14 +89,15 @@ class TissueTileExtractor:
                         format=large_image.tilesource.TILE_FORMAT_NUMPY,
                         level=0
                     )[0]
-                    
+                                        
                     if tile_img.size > 0:
-                        tiles.append((tissue_percent, x, y, tile_img))
+                        if fn(tile_img):
+                            tiles.append((tissue_percent, x, y, tile_img))
         
         # Save top tiles sorted by tissue percentage
         for idx, (score, x, y, img) in enumerate(sorted(tiles, key=lambda x: -x[0])):
-            fname = f"tile_{idx}_x{x}_y{y}_score{score:.1f}.png"
-            Image.fromarray(img).save(os.path.join(self.output_dir, fname))
+            fname = f"_tile_{idx}_x{x}_y{y}_score{score:.1f}.png"
+            Image.fromarray(img).save(os.path.join(self.slide_path.split(os.sep)[-1], self.output_dir, fname))
 
 # Usage
 if __name__ == "__main__":

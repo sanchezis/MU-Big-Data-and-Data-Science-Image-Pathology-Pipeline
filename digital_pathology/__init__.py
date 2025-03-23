@@ -18,7 +18,7 @@ os.environ.setdefault('PYSPARK_DRIVER_PYTHON', sys.executable)
 
 if './../lib' not in os.environ.get('PATH', '') or \
     os.path.join(  os.getcwd() , 'lib'  ) not in os.environ.get('PATH', ''):
-    os.environ['PATH'] += os.pathsep + './../lib' + os.pathsep + '../lib' + os.pathsep + os.path.join(  os.path.dirname( os.getcwd() ) , 'lib'  )
+    os.environ['PATH'] += os.pathsep + './../lib' + os.pathsep + '../lib' + os.pathsep + os.path.join( os.path.dirname(  os.getcwd() ), 'lib'  )
 
 #Ipython notebook settings
 pd.set_option('max_info_columns', 500)

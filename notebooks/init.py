@@ -4,8 +4,6 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-sys.path += [ f"./.." , f"./../digital_pathology" , './../lib']
-
 os.environ['HADOOP_CONF_DIR'] = '/etc/hadoop/conf'
 os.environ['PYARROW_IGNORE_TIMEZONE']='1'
 os.environ['PYSPARK_PYTHON'] = sys.executable
@@ -13,7 +11,9 @@ os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
 if './../lib' not in os.environ.get('PATH', '') or \
     os.path.join(  os.getcwd() , 'lib'  ) not in os.environ.get('PATH', ''):
-    os.environ['PATH'] += os.pathsep + './../lib' + os.pathsep + '../lib' + os.pathsep + os.path.join(  os.getcwd() , 'lib'  )
+    os.environ['PATH'] += os.pathsep + './../lib' + os.pathsep + '../lib' + os.pathsep + os.path.join( os.path.dirname(  os.getcwd() ), 'lib'  )
+    
+sys.path += [ f"./.." , f"./../digital_pathology" , './../lib', os.path.join( os.path.dirname(  os.getcwd() ), 'digital_pathology'  )]
 
 #Ipython notebook settings
 pd.set_option('max_info_columns', 500)

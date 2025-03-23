@@ -5,7 +5,6 @@ __author__ = "Israel Llorens <sanchezis@hotmail.com>"
 __copyright__ = "Copyright 2024, Israel Llorens"
 __license__ = "EUPL-1.2"
 
-import helper_functions
 import json
 from IPython.display import display, HTML
 
@@ -28,10 +27,10 @@ import boto3
 import matplotlib.pyplot as plt
 import matplotlib.image as mplimg
 
-def download_image(bucket_name, path):
+def download_image(bucket_name, path, out):
     s3 = boto3.resource('s3' #, region_name='us-east-2'
                         )
-    bucket = s3.Bucket('camelyon-dataset')
+    bucket = s3.Bucket(bucket_name)
     object = bucket.Object(path)
 
     file_stream = io.BytesIO()
@@ -41,7 +40,7 @@ def download_image(bucket_name, path):
     # print(file_stream.closed)
     name = path.split('/')[-1]
     # Write the stuff
-    with open(os.path.join('..', 'data', name), "wb") as f:
+    with open(out, "wb") as f:
         f.write(file_stream.getbuffer())
 
     # tifffile.imwrite(file_stream, [[0]])
