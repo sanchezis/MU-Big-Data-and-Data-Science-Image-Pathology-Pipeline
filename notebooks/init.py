@@ -1,8 +1,13 @@
+import logging
 import sys 
 import os
 import pandas as pd 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+from IPython.display import display_html
+
+# logging.warning(f"{sys.executable}")
 
 os.environ['HADOOP_CONF_DIR'] = '/etc/hadoop/conf'
 os.environ['PYARROW_IGNORE_TIMEZONE']='1'
@@ -12,6 +17,7 @@ os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 if './../lib' not in os.environ.get('PATH', '') or \
     os.path.join(  os.getcwd() , 'lib'  ) not in os.environ.get('PATH', ''):
     os.environ['PATH'] += os.pathsep + './../lib' + os.pathsep + '../lib' + os.pathsep + os.path.join( os.path.dirname(  os.getcwd() ), 'lib'  )
+    os.environ['PYTHONPATH'] = sys.executable
     
 sys.path += [ f"./.." , f"./../digital_pathology" , './../lib', os.path.join( os.path.dirname(  os.getcwd() ), 'digital_pathology'  )]
 

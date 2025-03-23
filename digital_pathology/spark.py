@@ -1,3 +1,4 @@
+import logging
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 
@@ -9,6 +10,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 spark = SparkSession.getActiveSession()
 if not spark:
   # Save your AWS Credentials here
+  logging.info('****************************CREATING SPARK CLUSTER*******************************')
   aws_access_key_id = ''
   aws_secret_access_key = ''
   aws_session_token = ''
