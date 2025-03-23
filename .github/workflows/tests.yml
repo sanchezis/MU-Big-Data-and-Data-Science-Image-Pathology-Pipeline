@@ -49,17 +49,49 @@ jobs:
               libproj-dev proj-bin libgeos-dev \
               libcurl4-gnutls-dev libexpat1-dev libxml2-dev \
               libsqlite3-dev libtiff-dev
+
+          sudo apt-get update
+          sudo apt-get install -y \
+              cmake \
+              build-essential \
+              python3-dev \
+              libproj-dev \
+              libgeos-dev \
+              libcurl4-gnutls-dev \
+              libexpat1-dev \
+              libxml2-dev \
+              libsqlite3-dev \
+              libtiff-dev
+
           sudo apt-get install -y autoconf automake libtool
+          
           wget https://download.osgeo.org/gdal/3.10.2/gdal-3.10.2.tar.gz
           tar -xzf gdal-3.10.2.tar.gz
-          ls -l
+          # ls -l
           cd gdal-3.10.2
-          ls -l
-          autoreconf -fvi
-          ./configure
+          # ls -l
+          
+          # autoreconf -fvi
+          # ./configure
+
+          # Create a build directory
+          mkdir build
+          cd build
+
+          # Configure with CMake
+          cmake .. \
+              -DCMAKE_INSTALL_PREFIX=/usr/local \
+              -DCMAKE_BUILD_TYPE=Release
+
           make -j$(nproc)
           sudo make install
           sudo ldconfig
+
+
+          # git clone https://github.com/OSGeo/gdal.git
+          # cd gdal
+          # git checkout tags/v3.10.2
+          # ./autogen.sh  # Runs autoreconf internally
 
       - name: Install Python GDAL
         run: |
