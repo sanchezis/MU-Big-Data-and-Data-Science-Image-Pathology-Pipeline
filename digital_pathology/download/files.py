@@ -84,20 +84,20 @@ class DownloadPathologyData(object):
 
             try:
                 os.remove(file_path)
-                print(f"{file_path} deleted successfully")
+                logging.warning(f"{file_path} deleted successfully")
             except FileNotFoundError:
-                print(f"The file {file_path} does not exist")
+                logging.warning(f"The file {file_path} does not exist")
             except PermissionError:
-                print(f"Permission denied to delete {file_path}")
+                logging.warning(f"Permission denied to delete {file_path}")
             except Exception as e:
-                print(f"Error deleting file: {str(e)}")
+                logging.warning(f"Error deleting file: {str(e)}")
 
         result = spark.createDataFrame ( 
                         pd.DataFrame ( glob.glob("../data/patient_extracts/*.tif"),  columns=['downloaded_tiles'] ) , 
                         schema=T.StructType([ T.StructField("downloaded_tiles", T.StringType()), ])
                     )
 
-        result.write.mode('overwrite').parquet('1-download.parquet')
+        result.write.mode('overwrite').parquet('data/1-download.parquet')
 
         logging.info('***************************************************************')
 
