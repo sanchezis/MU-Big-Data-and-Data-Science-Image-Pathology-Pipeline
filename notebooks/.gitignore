@@ -1,3 +1,4 @@
 sample_tile_results
 *.lock
 *.pth
+*.dylib
