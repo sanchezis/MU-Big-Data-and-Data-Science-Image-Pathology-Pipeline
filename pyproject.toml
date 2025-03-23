@@ -3,7 +3,11 @@ name = "digital_pathology"
 version = "1.0.0"
 description = "Digital Pathology"
 authors = ["Israel Llorens <sanchezis@hotmail.com>"]
-license = "EUPL-1.2"
+license = "MIT OR EUPL-1.2"  # SPDX expression
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
