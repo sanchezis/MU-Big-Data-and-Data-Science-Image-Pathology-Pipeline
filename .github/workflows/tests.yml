@@ -17,56 +17,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Install system-level GDAL dependencies
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libgdal-dev \
-            gdal-bin
-          sudo apt-get install -y \
-              cmake \
-              build-essential \
-              python3-dev \
-              libproj-dev \
-              libgeos-dev \
-              libcurl4-gnutls-dev \
-              libexpat1-dev \
-              libxml2-dev \
-              libsqlite3-dev \
-              libtiff-dev \
-              openslide-tools
-          sudo add-apt-repository ppa:ubuntugis/ppa
-          sudo apt-get update
-          sudo apt-get install gdal-bin
-          sudo apt-get install libgdal-dev
-
-      # Step 2: Set up Python 3.11
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
-      - name: Setup Conda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          miniconda-version: "latest"
-          python-version: "3.11"
-          activate-environment: "env"
-          auto-update-conda: true
-
-      - name: Install GDAL
-        run: |
-          conda install -c conda-forge gdal=3.8.4  # Match Ubuntu 24.04's libgdal=3.8.4
-
-      # - name: Install GDAL 3.10.2 from source
+      # # Install system-level GDAL dependencies
+      # - name: Install system dependencies
       #   run: |
-      #     sudo apt-get install -y build-essential python3-dev \
-      #         libproj-dev proj-bin libgeos-dev \
-      #         libcurl4-gnutls-dev libexpat1-dev libxml2-dev \
-      #         libsqlite3-dev libtiff-dev
-
       #     sudo apt-get update
+      #     sudo apt-get install -y \
+      #       libgdal-dev \
+      #       gdal-bin
       #     sudo apt-get install -y \
       #         cmake \
       #         build-essential \
@@ -77,87 +34,130 @@ jobs:
       #         libexpat1-dev \
       #         libxml2-dev \
       #         libsqlite3-dev \
-      #         libtiff-dev
-
-      #     sudo apt-get install -y autoconf automake libtool
-          
-      #     wget https://download.osgeo.org/gdal/3.10.2/gdal-3.10.2.tar.gz
-      #     tar -xzf gdal-3.10.2.tar.gz
-      #     # ls -l
-      #     cd gdal-3.10.2
-      #     # ls -l
-          
-      #     # autoreconf -fvi
-      #     # ./configure
-
-      #     # Create a build directory
-      #     mkdir build
-      #     cd build
-
-      #     # Configure with CMake
-      #     cmake .. \
-      #         -DCMAKE_INSTALL_PREFIX=/usr/local \
-      #         -DCMAKE_BUILD_TYPE=Release
-
-      #     make -j$(nproc)
-      #     sudo make install
-      #     sudo ldconfig
-
-
-      #     # git clone https://github.com/OSGeo/gdal.git
-      #     # cd gdal
-      #     # git checkout tags/v3.10.2
-      #     # ./autogen.sh  # Runs autoreconf internally
-
-      # - name: Install Python GDAL
-      #   run: |
-      #     poetry run pip install gdal==3.10.2  # Use pip instead of Conda
-
-      # # Install system dependencies for pyarrow
-      # - name: Install system dependencies
-      #   run: |
+      #         libtiff-dev \
+      #         openslide-tools
+      #     sudo add-apt-repository ppa:ubuntugis/ppa
       #     sudo apt-get update
-      #     sudo apt-get install -y \
-      #       cmake \
-      #       libssl-dev \
-      #       libboost-dev \
-      #       libboost-system-dev \
-      #       libboost-filesystem-dev \
-      #       libgdal-dev \
-      #       gdal-bin
+      #     sudo apt-get install gdal-bin
+      #     sudo apt-get install libgdal-dev
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1  # Official Poetry installer for GitHub Actions
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true  # Create venv in project directory
-
-      - name: Install dependencies
-        run: |
-          poetry install --with dev,test
-          # poetry install --with dev,test,doc
-          # python -m pip install --upgrade pip
-          # pip install pytest  # Install pytest explicitly
-          # If you have a requirements.txt, use:
-          # pip install -r requirements.txt
-
-      # - name: Check GDAL version
-      #   run: |
-      #     gdal-config --version
-      #     poetry run gdalinfo --version
-
-
-      # Step 3: Run tests
-      - name: Run tests
-        run: poetry run pytest tests/  # Assumes "tests" is defined in package.json
-
-      # (Optional) Step 5: Generate a coverage badge
-      # - name: Create coverage badge
-      #   uses: schneegans/dynamic-badges-action@v1
-      #   if: always()
+      # # Step 2: Set up Python 3.11
+      # - name: Setup Python
+      #   uses: actions/setup-python@v4
       #   with:
-      #     auth: ${{ secrets.GITHUB_TOKEN }}
-      #     label: Coverage
-      #     status: ${{ github.workflow }}
-      #     path: coverage/coverage-summary.json  # Path to your coverage report
-      #     output: badges/coverage.svg
+      #     python-version: 3.11
+
+      # - name: Setup Conda
+      #   uses: conda-incubator/setup-miniconda@v2
+      #   with:
+      #     miniconda-version: "latest"
+      #     python-version: "3.11"
+      #     activate-environment: "env"
+      #     auto-update-conda: true
+
+      # - name: Install GDAL
+      #   run: |
+      #     conda install -c conda-forge gdal=3.8.4  # Match Ubuntu 24.04's libgdal=3.8.4
+
+      # # - name: Install GDAL 3.10.2 from source
+      # #   run: |
+      # #     sudo apt-get install -y build-essential python3-dev \
+      # #         libproj-dev proj-bin libgeos-dev \
+      # #         libcurl4-gnutls-dev libexpat1-dev libxml2-dev \
+      # #         libsqlite3-dev libtiff-dev
+
+      # #     sudo apt-get update
+      # #     sudo apt-get install -y \
+      # #         cmake \
+      # #         build-essential \
+      # #         python3-dev \
+      # #         libproj-dev \
+      # #         libgeos-dev \
+      # #         libcurl4-gnutls-dev \
+      # #         libexpat1-dev \
+      # #         libxml2-dev \
+      # #         libsqlite3-dev \
+      # #         libtiff-dev
+
+      # #     sudo apt-get install -y autoconf automake libtool
+          
+      # #     wget https://download.osgeo.org/gdal/3.10.2/gdal-3.10.2.tar.gz
+      # #     tar -xzf gdal-3.10.2.tar.gz
+      # #     # ls -l
+      # #     cd gdal-3.10.2
+      # #     # ls -l
+          
+      # #     # autoreconf -fvi
+      # #     # ./configure
+
+      # #     # Create a build directory
+      # #     mkdir build
+      # #     cd build
+
+      # #     # Configure with CMake
+      # #     cmake .. \
+      # #         -DCMAKE_INSTALL_PREFIX=/usr/local \
+      # #         -DCMAKE_BUILD_TYPE=Release
+
+      # #     make -j$(nproc)
+      # #     sudo make install
+      # #     sudo ldconfig
+
+
+      # #     # git clone https://github.com/OSGeo/gdal.git
+      # #     # cd gdal
+      # #     # git checkout tags/v3.10.2
+      # #     # ./autogen.sh  # Runs autoreconf internally
+
+      # # - name: Install Python GDAL
+      # #   run: |
+      # #     poetry run pip install gdal==3.10.2  # Use pip instead of Conda
+
+      # # # Install system dependencies for pyarrow
+      # # - name: Install system dependencies
+      # #   run: |
+      # #     sudo apt-get update
+      # #     sudo apt-get install -y \
+      # #       cmake \
+      # #       libssl-dev \
+      # #       libboost-dev \
+      # #       libboost-system-dev \
+      # #       libboost-filesystem-dev \
+      # #       libgdal-dev \
+      # #       gdal-bin
+
+      # - name: Install Poetry
+      #   uses: snok/install-poetry@v1  # Official Poetry installer for GitHub Actions
+      #   with:
+      #     virtualenvs-create: true
+      #     virtualenvs-in-project: true  # Create venv in project directory
+
+      # - name: Install dependencies
+      #   run: |
+      #     poetry install --with dev,test
+      #     # poetry install --with dev,test,doc
+      #     # python -m pip install --upgrade pip
+      #     # pip install pytest  # Install pytest explicitly
+      #     # If you have a requirements.txt, use:
+      #     # pip install -r requirements.txt
+
+      # # - name: Check GDAL version
+      # #   run: |
+      # #     gdal-config --version
+      # #     poetry run gdalinfo --version
+
+
+      # # Step 3: Run tests
+      # - name: Run tests
+      #   run: poetry run pytest tests/  # Assumes "tests" is defined in package.json
+
+      # # (Optional) Step 5: Generate a coverage badge
+      # # - name: Create coverage badge
+      # #   uses: schneegans/dynamic-badges-action@v1
+      # #   if: always()
+      # #   with:
+      # #     auth: ${{ secrets.GITHUB_TOKEN }}
+      # #     label: Coverage
+      # #     status: ${{ github.workflow }}
+      # #     path: coverage/coverage-summary.json  # Path to your coverage report
+      # #     output: badges/coverage.svg
