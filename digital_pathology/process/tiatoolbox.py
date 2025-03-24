@@ -225,7 +225,7 @@ class NucleotidAndRegionExtractor(object):
             return len(objProps)
 
         
-        model_file_name = os.path.join('data', 'tissue_mask_model.pth')
+        model_file_name = os.path.join('tissue_mask_model.pth')
 
         spark.sparkContext.addFile(model_file_name)
         spark.sparkContext.addFile(model_file_name[:-4]+'.lock')
@@ -251,8 +251,10 @@ class NucleotidAndRegionExtractor(object):
                                 F.lit(os.path.sep),
                                 F.col('filename') )
                             )
-                        )\
-                        .withColumn('image',   
+                        )
+        
+        result = downloaded\
+                        .select(
                                 extract_tumor( 
                                             F.lit(images_path),
                                             F.col('filename') ,
@@ -261,4 +263,5 @@ class NucleotidAndRegionExtractor(object):
                         ) 
 
         downloaded.write.mode('overwrite').parquet(os.path.join('data', '3-nucleotids.parquet'))
+        result.write.mode('overwrite').parquet(os.path.join('data', '4-nucleotids.parquet'))
 
