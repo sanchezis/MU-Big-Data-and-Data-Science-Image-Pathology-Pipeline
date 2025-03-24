@@ -36,6 +36,10 @@ jobs:
               libsqlite3-dev \
               libtiff-dev \
               openslide-tools
+          sudo add-apt-repository ppa:ubuntugis/ppa
+          sudo apt-get update
+          sudo apt-get install gdal-bin
+          sudo apt-get install libgdal-dev
 
       # Step 2: Set up Python 3.11
       - name: Setup Python
@@ -51,9 +55,9 @@ jobs:
           activate-environment: "env"
           auto-update-conda: true
 
-      # - name: Install GDAL
-      #   run: |
-      #     conda install -c conda-forge gdal=3.8.4  # Match Ubuntu 24.04's libgdal=3.8.4
+      - name: Install GDAL
+        run: |
+          conda install -c conda-forge gdal=3.8.4  # Match Ubuntu 24.04's libgdal=3.8.4
 
       # - name: Install GDAL 3.10.2 from source
       #   run: |
