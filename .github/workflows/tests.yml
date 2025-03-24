@@ -34,19 +34,20 @@ jobs:
               libexpat1-dev \
               libxml2-dev \
               libsqlite3-dev \
-              libtiff-dev
+              libtiff-dev \
+              openslide-tools
 
       # Step 2: Set up Python 3.11
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.12
+          python-version: 3.11
 
       - name: Setup Conda
         uses: conda-incubator/setup-miniconda@v2
         with:
           miniconda-version: "latest"
-          python-version: "3.12"
+          python-version: "3.11"
           activate-environment: "env"
           auto-update-conda: true
 
