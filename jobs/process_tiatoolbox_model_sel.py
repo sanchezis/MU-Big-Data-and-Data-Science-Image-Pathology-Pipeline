@@ -69,22 +69,4 @@ if __name__ == '__main__':
     spark.stop()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# clear && poetry build && poetry run spark-submit  --master local  --py-files dist/digital_pathology-*.whl  --files lib/*  jobs/process_tiatoolbox_model_sel.py
+# clear && poetry build && poetry run spark-submit  --master local  --py-files dist/digital_pathology-*.whl   jobs/process_tiatoolbox_model_sel.py

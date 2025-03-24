@@ -30,16 +30,19 @@ class NucleotidExtractor(object):
             from stardist.data import test_image_nuclei_2d
             from stardist.plot import render_label
             from csbdeep.utils import normalize
-            
-            # Load model once per executor process
-            if not hasattr(extract_nucleotid, 'model_he'):
-                extract_nucleotid.model_he = StarDist2D.from_pretrained('2D_versatile_he')
-            model_he = extract_nucleotid.model_he
+
+            try:
+                # Load model once per executor process
+                if not hasattr(extract_nucleotid, 'model_he'):
+                    extract_nucleotid.model_he = StarDist2D.from_pretrained('2D_versatile_he')
+                model_he = extract_nucleotid.model_he
+            except:
+                return False
             
             image_file_name = col
-            image = skimage.io.imread(image_file_name)
             
             try:
+                image = skimage.io.imread(image_file_name)
                 labels, _ = model_he.predict_instances(normalize(image))
                 skimage.io.imsave(f'{image_file_name}_nucleotid_labels.png', labels)
             except:
@@ -53,7 +56,6 @@ class NucleotidExtractor(object):
         downloaded.show(truncate=False)
 
         downloaded = downloaded\
-                        .repartition(2)\
                         .withColumn(
                             "nucleotid_filename", 
                             extract_nucleotid(F.concat( F.lit(
