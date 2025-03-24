@@ -31,7 +31,7 @@ try:
     from pyspark.sql.functions import col, isnan, when, count,to_date,year,month,expr,hour,dayofweek,lower,array_remove,collect_list,lit
     from pyspark.sql.functions import pandas_udf,split
     from pyspark.sql.types import ArrayType, DoubleType, StringType
-    from pyspark.sql.types import StructField,StructType,StringType,DoubleType,FloatType,IntegerType
+    from pyspark.sql.types import StructField,StructType,StringType,DoubleType,FloatType,IntegerType, LongType
     import pyspark.sql.functions as F
 except:
     pass
@@ -60,12 +60,17 @@ from tiatoolbox.utils.misc import download_data, imread
 from tiatoolbox.utils.visualization import overlay_prediction_mask
 from tiatoolbox.wsicore.wsireader import WSIReader
 
+from urllib import request
+import certifi
+import ssl
+import os
+
 import numpy as np
 import histomicstk as htk
 import skimage
 import scipy as sp
 
-
+import shutil
 
 
 BINARY_FILES_SCHEMA = StructType(
@@ -85,18 +90,43 @@ class NucleotidAndRegionExtractor(object):
 
     def run(self, spark):
 
+        # model_file_name = os.path.join('/Users/illorens/Projects/source',  "tissue_mask_model.pth")
+        model_file_name = os.path.join(os.getcwd(), 'data',  "tissue_mask_model.pth")
+
+        spark.sparkContext.addFile(model_file_name)
+        # spark.sparkContext.addFile(model_file_name[:-4]+'.lock')
+
+        images_path = os.path.join('data', 'patient_extracts')
+
+        logging.info(f"******** MODEL: {model_file_name}   -----  {os.path.exists(model_file_name)}")
+        
+        if not os.path.exists(model_file_name):
+            download_data(
+                "https://tiatoolbox.dcs.warwick.ac.uk//models/seg/fcn-tissue_mask.pth",
+                model_file_name,
+                overwrite=True
+            )
+
+
+
+
+
         @F.udf(returnType = BINARY_FILES_SCHEMA)
-        def extract_tumor(path, img_name, img_path, DEBUG=True):
+        def extract_tumor(img_name, img_path, DEBUG=True):
             import logging
             import os
             import numpy as np
             from tiatoolbox.models.engine.semantic_segmentor import SemanticSegmentor
 
+            context = ssl.create_default_context(cafile=certifi.where())
+            https_handler = request.HTTPSHandler(context=context)
+            opener = request.build_opener(https_handler)
+            request.install_opener(opener)
 
             # Disable logging to avoid issues
             import logging
             logger = logging.getLogger()
-            logger.setLevel(logging.CRITICAL)
+            logger.setLevel(logging.WARNING)
             
             label_names_dict = {
                 0: "Tumour",
@@ -105,58 +135,77 @@ class NucleotidAndRegionExtractor(object):
                 3: "Necrosis",
                 4: "Others",
             }
-
+            
+            logging.warning(f"******** MODEL: {model_file_name}   -----  {os.path.exists(model_file_name)}")
+            logging.warning(f"******** NAME: {img_name}   ")
+            logging.warning(f"******** IMG_PATH: {img_path}   -----  {os.path.exists(img_path)}")            
+            
             # Tile prediction
+            
+            # out_location = os.path.join(img_path, f"sample_tile_results/{img_name}")
+            # logging.warning(out_location)
+            
+            # import shutil
+            # #os.rmdir(f"sample_tile_results/{img[2]}")
+            # try:
+            #     shutil.rmtree(out_location)
+            # except:
+            #     pass
+            
+            
             bcc_segmentor = SemanticSegmentor(
-                pretrained_model=model_file_name, # "fcn_resnet50_unet-bcss", # Ensure this path is worker-accessible
+                pretrained_model= "fcn_resnet50_unet-bcss", # Ensure this path is worker-accessible
                 num_loader_workers=0,    # Avoid Multiprocessing in UDF CRUCIAL: Disable multiprocessing
                 batch_size=4,
             )
-            
-            out_location = os.path.join(img_path, f"sample_tile_results/{img_name}")
-            logging.warning(out_location)
-            
+
             import shutil
-            #os.rmdir(f"sample_tile_results/{img[2]}")
-            try:
-                shutil.rmtree(out_location, exist_ok=True)
-            except:
-                pass
-            
+            import tempfile
+            import uuid            
+            tmp_dirname = os.path.join('data', f'tiatoolbox_{uuid.uuid4()}')
+            shutil.rmtree(tmp_dirname, True)
             output = bcc_segmentor.predict(
-                [path],
-                save_dir=out_location,
+                [os.path.join(images_path, img_name)],
+                save_dir=tmp_dirname,
                 mode="tile",
                 resolution=1.0,
                 units="baseline",
                 patch_input_shape=[1024, 1024],
                 patch_output_shape=[512, 512],
                 stride_shape=[512, 512],
-                on_gpu=False,
-                crash_on_exception=True,
+                # on_gpu=False,
+                crash_on_exception=False,
             )
-            
-            tile_prediction_raw = np.load(
-                output[0][1] + f"{img_name}.raw.0.npy",
-            ) 
-            
-            tile_prediction = np.argmax(
-                tile_prediction_raw,
-                axis=-1,
-            ) 
-            bins = np.bincount(tile_prediction.flatten())
-            out = str( list( zip (label_names_dict.values(),  np.round( bins / np.sum(bins) * 100, 4)  ) ) )
-            tile = imread(path)
 
+            tile_prediction_raw = output[0][1]
+            tile_prediction_raw = np.load(tile_prediction_raw + '.raw.0.npy')
+            shutil.rmtree(tmp_dirname, True)
+            
+            if tile_prediction_raw.size > 0:
+            
+                tile_prediction = np.argmax(
+                    tile_prediction_raw,
+                    axis=-1,
+                ) 
+                bins = np.bincount(tile_prediction.flatten())
+                out = str( list( zip (label_names_dict.values(),  np.round( bins / np.sum(bins) * 100, 4)  ) ) )
+                # tile = imread(os.path.join(images_path, img_name))
+
+                return [ 
+                        # Image.fromarray(tile_prediction), 
+                        str(bins),
+                        out,
+                        # [tile,] 
+                        ] 
             return [ 
-                    # Image.fromarray(tile_prediction), 
-                    str(bins),
-                    out,
-                    # [tile,] 
-                    ] 
+                        # Image.fromarray(tile_prediction), 
+                        None,
+                        None,
+                        # [tile,] 
+                        ] 
 
 
-        @udf(BooleanType())
+        @udf(LongType())
         def extract_nucleotid(image_file_name):
             # Hyperparameters
 
@@ -225,13 +274,7 @@ class NucleotidAndRegionExtractor(object):
             return len(objProps)
 
         
-        model_file_name = os.path.join('tissue_mask_model.pth')
-
-        spark.sparkContext.addFile(model_file_name)
-        spark.sparkContext.addFile(model_file_name[:-4]+'.lock')
-
-        images_path = os.path.join('data', 'patient_extracts')
-
+        ##################################### OUT
 
         # Check installation across cluster
         downloaded = spark.read.parquet(os.path.join('data', '1-download.parquet'))
@@ -255,13 +298,15 @@ class NucleotidAndRegionExtractor(object):
         
         result = downloaded\
                         .select(
+                                'filename',
+                                'patient_key',
+                                'patient_id',
                                 extract_tumor( 
-                                            F.lit(images_path),
                                             F.col('filename') ,
                                             F.lit(images_path)
                                             ) 
                         ) 
 
-        downloaded.write.mode('overwrite').parquet(os.path.join('data', '3-nucleotids.parquet'))
+        # downloaded.write.mode('overwrite').parquet(os.path.join('data', '3-nucleotids.parquet'))
         result.write.mode('overwrite').parquet(os.path.join('data', '4-nucleotids.parquet'))
 

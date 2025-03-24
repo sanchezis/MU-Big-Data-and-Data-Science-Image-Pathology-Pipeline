@@ -12,6 +12,7 @@ import sys
 import glob
 from pyspark.sql import SparkSession
 
+import pandas as pd
 from digital_pathology.spark import spark
 from digital_pathology.process.model_selection import ResNetModel
 
@@ -62,6 +63,23 @@ if __name__ == '__main__':
     spark.range(10).withColumn("openslide_installed", verify_openslide()).show()    
     
     ResNetModel().run(spark)
+    
+    
+    def check_path(path):
+        return os.path.exists(path)
+
+    spark.udf.register("check_path", check_path)
+
+    # Test with a dummy DataFrame
+    df = spark.createDataFrame( 
+                            pd.DataFrame(
+                            [(os.path.join(os.getcwd(), "tissue_mask_model.pth")), ], 
+                            columns=["path"]
+                            )
+                        )
+    df.selectExpr("path", "check_path(path) as path_exists").show(truncate=False)
+    
+    
     logging.warning('*******************************************')
     ##################################################
 

@@ -39,6 +39,8 @@ Se deben instalar o tener acceso a las siguientes tecnologías instaladas en ya 
 * Java JDK versión 11.0.24
 * Scala versión 2.13
 * Librerías: pyspark (3.4.4), pylint(3.1.0), numpy (^1.20.2), pandas (^2.0.0)
+* [OpenSlide](https://openslide.org/)
+* [TiaToolbox](https://tia-toolbox.readthedocs.io/), [HistomicsTK](https://github.com/DigitalSlideArchive/HistomicsTK/tree/master), [StarDist](https://stardist.net/)
 
 ## Configuración
 
