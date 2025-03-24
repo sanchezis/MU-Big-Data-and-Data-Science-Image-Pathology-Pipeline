@@ -19,7 +19,7 @@ LOG_FILENAME = 'project.log'
 APP_NAME = "Process several library features"
 
 if __name__ == '__main__':
-    logging.basicConfig(filename=LOG_FILENAME, level=logging.WARN)
+    logging.basicConfig(level=logging.WARN)
     logging.info(sys.argv)
 
     if len(sys.argv) != 1:

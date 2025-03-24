@@ -36,7 +36,7 @@ if not spark:
     "spark.ui.showConsoleProgress": "false",
     
     # AWS settings 
-    "spark.jars.packages": "io.delta:delta-core_2.12:2.3.0,org.apache.hadoop:hadoop-aws:3.3.4,graphframes:graphframes:graphframes-0.8.1-spark3.0-s_2.12,com.databricks:spark-avro_2.11-4.0.0.jar",
+    # "spark.jars.packages": "io.delta:delta-core_2.12:2.3.0,org.apache.hadoop:hadoop-aws:3.3.4,graphframes:graphframes:graphframes-0.8.1-spark3.0-s_2.12,com.databricks:spark-avro_2.11-4.0.0.jar",
     "spark.executor.extraJavaOptions":"-Dcom.amazonaws.services.s3.enableV4=true",
     "spark.driver.extraJavaOptions":"-Dcom.amazonaws.services.s3.enableV4=true",
     'spark.hadoop.fs.s3a.aws.credentials.provider': 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider'

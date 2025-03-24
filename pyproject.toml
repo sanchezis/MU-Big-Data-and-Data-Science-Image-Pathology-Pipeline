@@ -43,6 +43,7 @@ opencv-python = "4.9.0.80"
 tiatoolbox = "^1.6.0"
 torch-geometric = "^2.6.1"
 ujson = "^5.10.0"
+llvmlite = "0.42.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.6.1"

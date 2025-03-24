@@ -92,12 +92,23 @@ class DownloadPathologyData(object):
             except Exception as e:
                 logging.warning(f"Error deleting file: {str(e)}")
 
-        result = spark.createDataFrame ( 
-                        pd.DataFrame ( glob.glob("../data/patient_extracts/*.tif"),  columns=['downloaded_tiles'] ) , 
-                        schema=T.StructType([ T.StructField("downloaded_tiles", T.StringType()), ])
-                    )
+        images_path = output_path
 
-        result.write.mode('overwrite').parquet('data/1-download.parquet')
+        # result = spark.createDataFrame ( 
+        #                 pd.DataFrame ( glob.glob(os.path.join("data","patient_extracts/*.png") ),  columns=['downloaded_tiles'] ) , 
+        #                 schema=T.StructType([ T.StructField("downloaded_tiles", T.StringType()), ])
+        #             )
+
+        # Normally in content I have the image already, but in local machine JavaHeap happens.
+        result = spark.read.format("binaryFile")\
+            .option("pathGlobFilter", "*.png")\
+            .load( os.path.join(images_path, "*.png") )\
+            .withColumn('filename',     F.slice( F.split('path', '/'), F.size( F.split('path', '/')) , 1) .getItem(0)      )\
+            .withColumn('patient_key', F.regexp_extract(F.col('filename'), pattern=r'(?i)(patient_[0-9]+_node_[0-9]+\.tif)', idx=1))\
+            .withColumn('patient_id',  F.regexp_extract(F.col('patient_key'), pattern=r'(?i)(patient_[0-9]+)', idx=1))\
+            .drop(*['path', 'content'])
+
+        result.write.mode('overwrite').parquet(os.path.join('data', '1-download.parquet'))
 
         logging.info('***************************************************************')
 
