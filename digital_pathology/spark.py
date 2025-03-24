@@ -73,7 +73,7 @@ if not spark:
 
 
   context = SparkContext(conf=conf)
-  context.setLogLevel(logLevel="INFO")
+  context.setLogLevel(logLevel="ERROR")
   spark = SparkSession(context)
   sc = context
 
