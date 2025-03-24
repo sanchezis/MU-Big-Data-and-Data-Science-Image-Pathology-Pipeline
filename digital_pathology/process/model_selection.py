@@ -23,6 +23,7 @@ class ResNetModel(object):
         from urllib import request
         import certifi
         import ssl
+        import os
 
         
         logging.warning('********************** RUN **********************')
@@ -32,10 +33,11 @@ class ResNetModel(object):
         opener = request.build_opener(https_handler)
         request.install_opener(opener)
 
-        model_file_name = "tissue_mask_model.pth"
+        model_file_name = os.path.join('data', "tissue_mask_model.pth")
         download_data(
             "https://tiatoolbox.dcs.warwick.ac.uk//models/seg/fcn-tissue_mask.pth",
             model_file_name,
+            overwrite=True
         )
         
         return

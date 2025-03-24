@@ -13,16 +13,19 @@ import matplotlib.pyplot as plt
 
 os.environ.setdefault('HADOOP_CONF_DIR', '/etc/hadoop/conf')
 os.environ.setdefault('PYARROW_IGNORE_TIMEZONE', '1')
-os.environ.setdefault('PYSPARK_PYTHON', sys.executable)
-os.environ.setdefault('PYSPARK_DRIVER_PYTHON', sys.executable)
+os.environ['PYSPARK_PYTHON'] = sys.executable
+os.environ['PYSPARK_DRIVER_PYTHON'] = sys.executable
 
 if './../lib' not in os.environ.get('PATH', '') or \
     os.path.join(  os.getcwd() , 'lib'  ) not in os.environ.get('PATH', ''):
-    os.environ['PATH'] += os.pathsep + './lib' \
+    os.environ['PYTHONPATH'] = sys.executable
+    os.environ['LIBPATH'] = os.pathsep + './lib' \
                         + os.pathsep + './../lib' \
                         + os.pathsep + '../lib' \
                         + os.pathsep + os.path.join(   os.getcwd() , 'lib'  ) \
                         + os.pathsep + os.path.join( os.path.dirname(  os.getcwd() ), 'lib'  ) 
+    os.environ['DYLD_LIBRARY_PATH'] = os.environ['LIBPATH']
+    os.environ['LIBRARY_PATH'] = os.environ['LIBPATH']
 
 #Ipython notebook settings
 pd.set_option('max_info_columns', 500)

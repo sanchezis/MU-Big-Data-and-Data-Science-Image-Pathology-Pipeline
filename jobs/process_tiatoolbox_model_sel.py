@@ -19,17 +19,23 @@ LOG_FILENAME = 'project.log'
 APP_NAME = "Process several library features"
 
 if __name__ == '__main__':
-    logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO)
+    logging.basicConfig(filename=LOG_FILENAME, level=logging.WARN)
     logging.info(sys.argv)
 
     if len(sys.argv) != 1:
         logging.warning("No need for config.")
         sys.exit(1)
 
-    logging.warning(os.environ['PATH'])
-
+    # # Initialize Spark with OpenSlide config
+    # spark = SparkSession.builder \
+    #     .appName("TIAToolboxWSI") \
+    #     .config("spark.executorEnv.OPENSLIDE_PATH", "/usr/lib/openslide") \
+    #     .config("spark.executorEnv.OBJC_DISABLE_INITIALIZE_FORK_SAFETY", "YES") \
+    #     .getOrCreate()
+    
     sc = spark.sparkContext
     app_name = sc.appName
+    
     logging.info("Application Initialized: " + app_name)
     try:
         input_path = sys.argv[1]
@@ -38,10 +44,12 @@ if __name__ == '__main__':
         pass
 
     ##################################################
+    logging.warning('*******************************************')
     
     from pyspark.sql.functions import udf
+    from openslide import OpenSlide
     from pyspark.sql.types import BooleanType
-
+    
     @udf(BooleanType())
     def verify_openslide():
         try:
@@ -53,11 +61,30 @@ if __name__ == '__main__':
     # Check installation across cluster
     spark.range(10).withColumn("openslide_installed", verify_openslide()).show()    
     
-    # ResNetModel().run(spark)
+    ResNetModel().run(spark)
+    logging.warning('*******************************************')
     ##################################################
 
     logging.info("Application Done: " + spark.sparkContext.appName)
     spark.stop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # clear && poetry build && poetry run spark-submit  --master local  --py-files dist/digital_pathology-*.whl  --files lib/*  jobs/process_tiatoolbox_model_sel.py

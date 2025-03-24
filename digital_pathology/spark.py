@@ -26,7 +26,7 @@ if not spark:
     'spark.sql.parquet.fs.optimized.committer.optimization-enabled': 'false',
     'spark.hadoop.mapreduce.fileoutputcommitter.algorithm.version': '2',
     'spark.speculation': 'false',
-    
+          
     'spark.hadoop.fs.s3.maxRetries': '20',
     'spark.hadoop.fs.s3.maxConnections': '5000',
     'spark.hadoop.fs.s3a.maxRetries': '20',
@@ -49,6 +49,11 @@ if not spark:
 
   for k, v in spark_conf.items():  # type: ignore
       conf.set(k, v)
+
+  conf = conf\
+            .set("spark.executorEnv.OPENSLIDE_PATH", "/") \
+            .set("spark.executorEnv.OBJC_DISABLE_INITIALIZE_FORK_SAFETY", "YES") 
+
 
   """
   conf\
