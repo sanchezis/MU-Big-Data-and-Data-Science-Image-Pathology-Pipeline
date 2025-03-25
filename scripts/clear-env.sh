@@ -1,3 +1,3 @@
-poetry cache clear --all .  
+yes | poetry cache clear --all .  
 poetry env remove --all 
 rm -rf .venv
