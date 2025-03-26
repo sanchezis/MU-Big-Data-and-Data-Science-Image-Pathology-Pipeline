@@ -46,7 +46,12 @@ Se deben instalar o tener acceso a las siguientes tecnologías instaladas en ya 
 
 ### Instalar dependencias
 
-Se puede instalar spark mediante la instalación de las dependencias de código o en forma local siguiendo el siguiente `script` en la máquina donde se desea tener el entorno.
+Se puede instalar spark mediante la instalación de las dependencias de código o en forma local siguiendo el siguiente `script` en la máquina donde se desea tener el entorno. 
+
+> ⚠️ Este entorno Spark debe estar configurado para usar AWS ! Se deben descargar los archivos JAR para conectarse. Si se usa Spark version 3.4.4 son los archivos:
+> [`aws-java-sdk-bundle-1.12.262.jar`](https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar)
+> [`hadoop-aws-3.3.4.jar`](https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar)
+> Y se deben guardar en el directorio JAR de Spark
 
 ```bash
 # Descarga Spark 3.4.4
