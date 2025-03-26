@@ -31,9 +31,7 @@ scipy = "^1.8.0"
 scikit-image = "0.24.0"
 scikit-learn = "1.5.2"
 shapely = "2.0.6"
-tensorflow = {version = "^2.16.1", extras = ["cuda"], markers = "sys_platform != 'darwin'"}
-tensorflow-macos = {version = "^2.16.2", markers = "sys_platform == 'darwin'"}
-tensorflow-metal = {version = "^1.2.0", markers = "sys_platform == 'darwin'"}
+tensorflow = "^2.16.0"
 stardist = "^0.9.1"
 histomicstk = "^1.4.0"
 ipykernel = "^6.29.5"
@@ -44,6 +42,13 @@ tiatoolbox = "^1.6.0"
 torch-geometric = "^2.6.1"
 ujson = "^5.10.0"
 llvmlite = "0.42.0"
+
+[tool.poetry.group.macos]
+optional = false  # Forces this group to be installed by default (but still respects platform markers)
+
+[tool.poetry.group.macos.dependencies]
+tensorflow-macos = {version = "^2.16.2", markers = "sys_platform == 'darwin'"}
+tensorflow-metal = {version = "^1.2.0", markers = "sys_platform == 'darwin'"}
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.6.1"
