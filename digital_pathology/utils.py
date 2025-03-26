@@ -27,8 +27,12 @@ import boto3
 import matplotlib.pyplot as plt
 import matplotlib.image as mplimg
 
+from botocore import UNSIGNED
+from botocore.config import Config
+
 def download_image(bucket_name, path, out):
-    s3 = boto3.resource('s3' #, region_name='us-east-2'
+    s3 = boto3.resource('s3', #, region_name='us-east-2'
+                            config=Config(signature_version=UNSIGNED)
                         )
     bucket = s3.Bucket(bucket_name)
     object = bucket.Object(path)
