@@ -36,10 +36,14 @@ if not spark:
     "spark.ui.showConsoleProgress": "false",
     
     # AWS settings 
-    # "spark.jars.packages": "io.delta:delta-core_2.12:2.3.0,org.apache.hadoop:hadoop-aws:3.3.4,graphframes:graphframes:graphframes-0.8.1-spark3.0-s_2.12,com.databricks:spark-avro_2.11-4.0.0.jar",
+    "spark.jars.packages": 
+            "org.apache.hadoop:hadoop-aws:3.3.4,"
+            "com.amazonaws:aws-java-sdk-bundle:1.12.262,"
+            "com.databricks:spark-xml_2.13-0.16.0",
+    # "io.delta:delta-core_2.12:2.3.0,org.apache.hadoop:hadoop-aws:3.3.4,graphframes:graphframes:graphframes-0.8.1-spark3.0-s_2.12,com.databricks:spark-avro_2.11-4.0.0.jar",
     "spark.executor.extraJavaOptions":"-Dcom.amazonaws.services.s3.enableV4=true",
     "spark.driver.extraJavaOptions":"-Dcom.amazonaws.services.s3.enableV4=true",
-    'spark.hadoop.fs.s3a.aws.credentials.provider': 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider'
+    'spark.hadoop.fs.s3a.aws.credentials.provider': 'org.apache.hadoop.fs.s3a.AnonymousAWSCredentialsProvider',
   }
 
   conf = SparkConf() \
@@ -55,21 +59,21 @@ if not spark:
             .set("spark.executorEnv.OBJC_DISABLE_INITIALIZE_FORK_SAFETY", "YES") 
 
 
-  """
   conf\
     .set("spark.hadoop.fs.s3a.access.key", aws_access_key_id)\
     .set("spark.hadoop.fs.s3a.secret.key", aws_secret_access_key)\
     .set("spark.hadoop.fs.s3a.session.token", aws_session_token)\
-    .set("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")\
-    .set("spark.sql.catalog.spark_catalog","org.apache.spark.sql.delta.catalog.DeltaCatalog")\
+
+    # .set("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")\
+    # .set("spark.sql.catalog.spark_catalog","org.apache.spark.sql.delta.catalog.DeltaCatalog")\
 
 
   conf.set('spark.hadoop.fs.s3a.access.key','1234567890123456')
   conf.set('spark.hadoop.fs.s3a.secret.key', 'AZERTYUIOPQSDFGHJKLMWXCVBN')
   #                      'fs.s3a.aws.credentials.provider', 
   conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider') # SimpleAWSCredentialsProvider, AnonymousAWSCredentialsProvider
-  conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.1')
-  """
+  # conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.1')
+
 
 
   context = SparkContext(conf=conf)
