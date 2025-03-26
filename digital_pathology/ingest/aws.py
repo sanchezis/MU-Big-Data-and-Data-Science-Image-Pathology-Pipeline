@@ -46,7 +46,7 @@ class AWS_ingestion(object):
 
         ingestion = spark.createDataFrame( self.get_s3_data(), schema=schema)
 
-        ingestion = ingestion.withColumn('type',      F.regexp_extract ('filename',  '\.(.+)', 1) )
+        ingestion = ingestion.withColumn('type',      F.regexp_extract ('filename',  '\.(.+)$', 1) )
         ingestion = ingestion.withColumn('loc',       F.regexp_extract ('filename',  '/(.+)/.*', 1) )
         ingestion = ingestion.withColumn('project',   F.regexp_extract ('filename',  '(\w+)/.*', 1) )
         
