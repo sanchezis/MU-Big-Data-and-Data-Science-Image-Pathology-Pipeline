@@ -1,13 +1,19 @@
-# TFM del Máster en Ciencias de Datos y Big Data
-
-[Universidad Internacional de Valencia](https://www.viu.es)
-
-## Generación de una tubería distribuida para la extracción de características en imágenes médicas patológicas
+# MSc - Thesis in Data Science and Big Data
 
 <!-- ![Tests](https://img.shields.io/badge/tests-100%25%20passing-brightgreen) -->
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 [![Tests](https://github.com/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline/actions/workflows/tests.yml/badge.svg)](https://github.com/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline/actions/workflows/tests.yml)
 ![GitHub Stars](https://img.shields.io/github/stars/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline?logo=github&color=yellow)
+
+<p align="center">
+ <a href="https://creativecommons.org/licenses/by/4.0/">
+<img src="https://source.roboflow.com/Fa9p6ViXI3XMKf97qo4vQSiQtNF3/51ovu3VZGLOdxckqk8Rp/original.jpg" width="380" />
+<img src="https://live.staticflickr.com/7238/7336389498_7c3ef9d443_b.jpg" width="338" />
+</a>
+</p>
+
+
+## Generation of a Distributed Pipeline for Feature Extraction in Pathological Medical Images
 
 <!--
 <img src="https://oncampus.universidadviu.com/sites/viu/files/logo_crespon_0.png" width="100" />
@@ -15,43 +21,43 @@
 
 [Israel Llorens](https://www.linkedin.com/in/israel-llorens/)
 
-## Tabla de contenido
+## Table of Contents
 
-* [Información General](#información-general)
-* [Tecnologías](#tecnologías)
-* [Configuración](#configuración)
-* [Ejecución](#ejecución)
+* [General Information](#general-information)
+* [Technologies](#technologies)
+* [Setup](#setup)
+* [Execution](#execution)
 
-## Información General
+## General Information
 
-El objetivo de este proyecto es el realizar una implementación de una tubería donde en cada paso, se realice una operación de extracción de información y minería de datos de fuentes provenientes de imágenes patológicas.
+This project aims to implement a pipeline where each step performs an information extraction and data mining operation from sources originating from pathological images.
 
-Asi mismo, se utilizarán diversas librerías y se realizará una comparativa de las posibilidades que estas ofrecen, como si se tratase de una ejecución en un entorno médico real.
+Likewise, various libraries will be used, and their possibilities will be compared, as if they were executed in a real medical environment.
 
-## Tecnologías
+## Technologies
 
-### Pre requisitos
+### Prerequisites
 
-Se deben instalar o tener acceso a las siguientes tecnologías instaladas en ya sea en local como en sistema distribuido.
+The following technologies must be installed or have access to them locally or in a distributed system.
 
-* Spark cluster versión ^3.4.4
+* Spark cluster version ^3.4.4
 * Python 3.11
-* Java JDK versión 11.0.24
-* Scala versión 2.13
-* Librerías: pyspark (3.4.4), pylint(3.1.0), numpy (^1.20.2), pandas (^2.0.0)
+* Java JDK version 11.0.24
+* Scala version 2.13
+* Libraries: pyspark (3.4.4), pylint(3.1.0), numpy (^1.20.2), pandas (^2.0.0)
 * [OpenSlide](https://openslide.org/)
 * [TiaToolbox](https://tia-toolbox.readthedocs.io/), [HistomicsTK](https://github.com/DigitalSlideArchive/HistomicsTK/tree/master), [StarDist](https://stardist.net/)
 
-## Configuración
+## Setup
 
-### Instalar dependencias
+### Install Dependencies
 
-Se puede instalar spark mediante la instalación de las dependencias de código o en forma local siguiendo el siguiente `script` en la máquina donde se desea tener el entorno. 
+Spark can be installed locally by installing code dependencies or by following the script on the machine where you want to have the environment.
 
-> ⚠️ Este entorno Spark debe estar configurado para usar AWS ! Se deben descargar los archivos JAR para conectarse. Si se usa Spark version 3.4.4 son los archivos:
+> ⚠️ This Spark environment must be configured to use AWS! You must download the JAR files to connect. If using Spark version 3.4.4, these are the files:
 > [`aws-java-sdk-bundle-1.12.262.jar`](https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar)
 > [`hadoop-aws-3.3.4.jar`](https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar)
-> Y se deben guardar en el directorio JAR de Spark
+> And they must be saved in the Spark JAR directory.
 
 ```bash
 # Descarga Spark 3.4.4
@@ -67,34 +73,35 @@ echo 'export PATH=$PATH:$SPARK_HOME/bin' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-Se pueden instalar los requerimientos de Python necesarios usando `poetry`.
+You can install the necessary Python requirements using `poetry`.
 
 ```bash
 pip install poetry
 poetry install
 ```
 
-los comandos instalarán todas las dependencias utilizadas en este proyecto.
+These commands will install all dependencies used in this project.
 
-### Ejecución de pruebas de código
+### Code Preparation
 
- > Todos los siguientes fragmentos se deben ejecutar satisfactoriamente.
+ > All the following fragments must be executed successfully.
 
-El proyecto posee un marco de trabajo o `Framework` denominado `digital_pathology` el cual tiene asociado un directorio de pruebas unitarias y de integración, que al ser ejecutadas, mantienen un correcto funcionamiento de las funcionalidades que se ejecutan en cada etapa de la extracción de características.
+The project has a framework called `digital_pathology` which has an associated directory of unit and integration tests that, when executed, maintain proper functioning of the functionalities executed in each feature extraction stage.
 
-* Ejecución de pruebas unitarias
+
+* Unit Testing
 
 ```bash
 poetry run pytest tests/unit
 ```
 
-* Ejecución de pruebas de integración
+* Integration Testing
 
 ```bash
 poetry run pytest tests/integration
 ```
 
-* Ejecución de chequeo de estilos y buenas prácticas de código
+* Code style and best practices check execution
 
 ```bash
 poetry run mypy --ignore-missing-imports --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs digital_pathology tests
@@ -102,17 +109,17 @@ poetry run mypy --ignore-missing-imports --disallow-untyped-calls --disallow-unt
 poetry run pylint data_transformations tests
 ```
 
-## Ejecución
+## Execution
 
-El proyecto sigue la siguiente estructura de directorio.
+The project follows the following directory structure.
 
 ```bash
 /
-├─ /digital_pathology # Contains the main python library
-│ # with the code to the transformations
+├─ /digital_pathology # Contains the main Python library
+│ # with the code for the transformations
 │
 ├─ /jobs # Contains the entry points to the jobs
-│ # performs argument parsing, and are
+│ # performs argument parsing, and is
 │ # passed to `spark-submit`
 │
 ├─ /notebooks # Contains the notebooks for databricks
@@ -121,7 +128,7 @@ El proyecto sigue la siguiente estructura de directorio.
 │
 ├─ /tests
 │ ├─ /units # contains basic unit tests for the code
-│ └─ /integration # contains integrations tests for the jobs
+│ └─ /integration # contains integration tests for the jobs
 │ # and the setup
 │
 ├─ .gitignore
@@ -131,10 +138,9 @@ El proyecto sigue la siguiente estructura de directorio.
 ├─ pyproject.toml
 └─ README.md # The current file
 ```
+The tests in the repository are performed autonomously and appear as completed through the corresponding `badge`. To execute each process, run the `run.sh` script or follow the instructions below.
 
-Las pruebas en el repositorio se efectúan de forma autónoma y aparecen como realizadas mediante el `badge` correspondiente. Para la ejecución de cada proceso se necesita ejecutar el script `run.sh` o mediante la siguiente instrucción.
-
-> ⚠️ Se puede ejecutar de manera local!
+> ⚠️ It can be executed locally!
 
 ```bash
 poetry build && poetry run spark-submit \
@@ -145,38 +151,39 @@ poetry build && poetry run spark-submit \
     <OUTPUT_PATH>
 ```
 
-* JOB_STEP: paso de la tubería (pipeline) la cual efectúa un proceso específico de extracción de características, procesado de imágenes y minería de datos, los posibles valores pueden ser `download`,`ingest`,`pre_process` or `extract`.
-* INPUT_FILE_PATH: De ser necesario, se puede añadir la fuente de datos de imágenes patológicas de entrada.
-* OUTPUT_PATH: Directorio de salida donde se almacenan todos los pasos ejecutados.
+* JOB_STEP: pipeline step which performs a specific feature extraction process, image processing, and data mining, possible values can be `download`, `ingest`, `pre_process`, or `extract`.
+* INPUT_FILE_PATH: If necessary, you can add the input pathological image data source.
+* OUTPUT_PATH: Output directory where all executed steps are stored.
 
-### Creación de embebido para ejecución en entorno de producción
+### Creating a Package for Production Environment Execution
 
-Ejecutando el script
+Running the script
 
 ```bash
 scripts/build.sh
 ```
 
-Creará una carpeta `dist` con los siguientes archivos:
+Will create a `dist` folder with the following files:
 
 ```bash
 /
 ...
 │
 ├─ /dist
-│ ├─ /digital_pathology-@VERSION.tar # zipped python library to be used for executors
+│ ├─ /digital_pathology-@VERSION.tar # zipped Python library to be used for executors
 │ └─ /digital_pathology-@VERSION-py3-none-any # library wheels for setup and installation
 │
 ...
 ```
 
-Los cuales pueden ser utilizados en cualquier implementación real o de producción, ya sea local, cloud o cluster.
+Which can be used in any real or production implementation, whether local, cloud, or cluster.
 
 ## License
 
 <!-- [MIT](https://choosealicense.com/licenses/mit/) -->
 [EUPL](https://raw.githubusercontent.com/sanchezis/MU-Big-Data-and-Data-Science-Image-Pathology-Pipeline/refs/heads/main/LICENSE)
 
+[Universidad Internacional de Valencia](https://www.viu.es) 
 <p align="center">
 <img src="https://www.universidadviu.com/sites/universidadviu.com/themes/custom/universidadviu_com/logo.webp" width="180" />
 </p>
